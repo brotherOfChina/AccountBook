@@ -5,11 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.administrator.accountbook.LoginActivity">
+
     <TextView
+        android:id="@+id/to_sign_up"
         android:layout_width="0dp"
-        android:text=""
         android:layout_height="45dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/colorPrimary"
+        android:gravity="center"
+        android:text="注册"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        app:layout_constraintStart_toStartOf="parent" />
 </android.support.constraint.ConstraintLayout>

@@ -10,6 +10,7 @@ import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main_account.*
 import kotlinx.android.synthetic.main.app_bar_main_account.*
+import org.jetbrains.anko.startActivity
 
 class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -19,8 +20,9 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+            startActivity<LoginActivity>()
+//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                    .setAction("Action", null).show()
         }
 
         val toggle = ActionBarDrawerToggle(
