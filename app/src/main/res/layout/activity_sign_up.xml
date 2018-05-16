@@ -26,7 +26,6 @@
         android:layout_marginTop="100dp"
         android:background="@drawable/stoke_of_edit"
         android:hint="输入昵称"
-        android:inputType="phone"
         android:padding="10dp"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
