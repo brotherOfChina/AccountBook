@@ -22,7 +22,18 @@ interface AccountDao {
      * 删除
      */
     @Query("DELETE FROM Account Where id = :id")
-    fun deleteById(id: String) {
-    }
+    fun deleteById(id: String)
+
+    /**
+     * 获取所有账单
+     */
+    @Query("SELECT FROM Account ")
+    fun getAllAccounts(): List<Account>
+
+    /**
+     * 根据id获取账单
+     */
+    @Query("SELECT FROM Account WHERE id = :id")
+    fun getAccountById(id: String)
 
 }
