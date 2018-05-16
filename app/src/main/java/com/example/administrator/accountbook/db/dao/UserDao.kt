@@ -25,9 +25,19 @@ interface UserDao {
     fun getUsers(): List<User>
 
     /**
+     * 根据手机号获取用户
+     */
+    @Query("SELECT * FROM User WHERE phone = :phone")
+    fun getUser(phone: String):User
+    /**
+     * 根据昵称获取用户
+     */
+    @Query("SELECT * FROM User WHERE nick_name = :nick_name")
+    fun getUserByNick(nick_name: String):User
+    /**
      * 删除用户
      */
-    @Query("DELETE FROM User WHERE uid = : uid")
+    @Query("DELETE FROM User WHERE uid = :uid")
     fun deleteUid(uid: String)
 
 }

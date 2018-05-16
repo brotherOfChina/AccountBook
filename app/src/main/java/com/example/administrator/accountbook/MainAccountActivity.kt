@@ -8,17 +8,27 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.TextView
+import com.example.administrator.accountbook.base.MyApplication
+import com.example.administrator.accountbook.extensions.DelegatesExt
+import com.example.administrator.accountbook.extensions.isLogin
+import com.example.administrator.accountbook.extensions.setLogin
 import kotlinx.android.synthetic.main.activity_main_account.*
 import kotlinx.android.synthetic.main.app_bar_main_account.*
+import org.jetbrains.anko.startActivity
 
 class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
-
+    var nickname: String by DelegatesExt.preference(MyApplication.instance, "nickname", "")
+    var tvName: TextView? = null
+    var tvPhone: TextView? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_account)
         setSupportActionBar(toolbar)
 
         fab.setOnClickListener { view ->
+
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
@@ -29,6 +39,27 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
+        val headView = nav_view.getHeaderView(0)
+        tvName = headView.findViewById<TextView>(R.id.name)
+        tvPhone = headView.findViewById<TextView>(R.id.tv_phone)
+
+        tvPhone?.setOnClickListener {
+            startActivity<LoginActivity>()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (isLogin()) {
+            tvName?.text = nickname
+            tvPhone?.visibility = View.INVISIBLE
+
+
+        } else {
+            tvName?.text = "未登录"
+            tvPhone?.text = "去登录"
+            tvPhone?.visibility = View.VISIBLE
+        }
     }
 
     override fun onBackPressed() {
@@ -58,27 +89,49 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
-            R.id.nav_camera -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
+
+        /**
+         * 添加账户
+         */
+            R.id.nav_add -> {
+                toSignUp("3")
 
             }
-            R.id.nav_slideshow -> {
-
+        /**
+         * 删除账户
+         */
+            R.id.nav_delete -> {
+                toSignUp("5")
             }
-            R.id.nav_manage -> {
-
+        /**
+         * 退出登录
+         */
+            R.id.nav_out -> {
+                setLogin(false)
             }
-            R.id.nav_share -> {
-
+        /**
+         * 重置密码
+         */
+            R.id.nav_password -> {
+                toSignUp("4")
             }
-            R.id.nav_send -> {
-
+        /**
+         * 注销账户
+         */
+            R.id.nav_cancel -> {
+                toSignUp("1")
             }
+
         }
 
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+    /**
+     * @param type 0注册；1注销；2退出；3添加；4重置  5   删除
+     */
+    private fun toSignUp(type: String) {
+        startActivity<SignUpActivity>("type" to type)
     }
 }
