@@ -6,7 +6,9 @@ import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.example.administrator.accountbook.R
+import com.example.administrator.accountbook.db.database.accountDb
 import com.example.administrator.accountbook.db.database.userDb
+import com.example.administrator.accountbook.db.entities.Account
 import com.example.administrator.accountbook.db.entities.User
 import com.vise.log.ViseLog
 import kotlinx.android.synthetic.main.activity_add_account.*
@@ -15,12 +17,15 @@ import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.custom.async
 import org.jetbrains.anko.spinner
+import org.jetbrains.anko.toast
+import java.text.SimpleDateFormat
+import java.util.*
 
 class AddAccountActivity : AppCompatActivity() {
     private var type = "1"   //0 支出，1  收入 2 预算
     private var status = "1"   //
     private var uid = "1"   //用户id
-
+    val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("china"))
     private var statusAdapter: ArrayAdapter<CharSequence>? = null
     private var userAdapter: ArrayAdapter<CharSequence>? = null
     private var users = mutableListOf<User>()
@@ -36,6 +41,9 @@ class AddAccountActivity : AppCompatActivity() {
             }
             users.addAll(allUsers.await())
             showUserSpinner(users)
+        }
+        btn_sure_create.setOnClickListener {
+            createAccount()
         }
         val adapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item)
         statusAdapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item)
@@ -74,6 +82,29 @@ class AddAccountActivity : AppCompatActivity() {
 
         }
 
+    }
+
+    private fun createAccount() {
+        var amount = 0;
+        var description = ""
+        val date=sdf.format(Date())
+        if (et_amount.text?.toString() != null) {
+            amount = et_amount.text.toString().toInt()
+        }else{
+            toast("请输入金额")
+        }
+        if (et_amount.text?.toString() != null) {
+            description = et_description.text.toString()
+        }
+        async(UI) {
+           val accounts= bg{
+                val account=Account(date,"",type,uid,status,amount,description)
+               ViseLog.d(account)
+                accountDb().accountDao().addAccount(account)
+            }
+
+            ViseLog.d(accounts.await())
+        }
     }
 
     private fun showUserSpinner(users: MutableList<User>) {
