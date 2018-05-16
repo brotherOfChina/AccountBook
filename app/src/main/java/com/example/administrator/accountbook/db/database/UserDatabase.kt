@@ -4,6 +4,7 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
+import com.example.administrator.accountbook.base.MyApplication
 import com.example.administrator.accountbook.db.dao.UserDao
 import com.example.administrator.accountbook.db.entities.User
 
@@ -20,11 +21,11 @@ abstract class UserDatabase : RoomDatabase() {
 
         private val lock = Any()
 
-        fun getInstance(context: Context): UserDatabase {
+        fun getInstance(): UserDatabase {
             synchronized(lock) {
                 if (INSTANCE == null) {
                     INSTANCE = Room
-                            .databaseBuilder(context.applicationContext, UserDatabase::class.java, "User.db")
+                            .databaseBuilder(MyApplication.instance.applicationContext, UserDatabase::class.java, "User.db")
                             .build()
 
                 }
@@ -32,4 +33,7 @@ abstract class UserDatabase : RoomDatabase() {
             }
         }
     }
+}
+fun Context.userDb(): UserDatabase {
+    return UserDatabase.getInstance()
 }

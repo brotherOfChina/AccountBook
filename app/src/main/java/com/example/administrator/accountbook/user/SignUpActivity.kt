@@ -1,8 +1,9 @@
-package com.example.administrator.accountbook
+package com.example.administrator.accountbook.user
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
+import com.example.administrator.accountbook.R
 import com.example.administrator.accountbook.base.MyApplication
 import com.example.administrator.accountbook.db.database.UserDatabase
 import com.example.administrator.accountbook.db.entities.User
@@ -90,7 +91,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun addUser() {
         async(UI) {
             val users = bg {
-                val db = UserDatabase.getInstance(MyApplication.instance).userDao()
+                val db = UserDatabase.getInstance().userDao()
                 db.addUser(User(et_phone.text.toString(), "", et_nick_name.text.toString()))
                 db.getUsers()
             }
@@ -103,7 +104,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun deleteUser() {
         async(UI) {
             val users = bg {
-                val db = UserDatabase.getInstance(MyApplication.instance).userDao()
+                val db = UserDatabase.getInstance().userDao()
                 val user = db.getUserByNick(et_nick_name.text.toString())
                 db.deleteUid(user.uid)
                 db.getUsers()
@@ -117,7 +118,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun cancleUser() {
         async(UI) {
             val users = bg {
-                val db = UserDatabase.getInstance(MyApplication.instance).userDao()
+                val db = UserDatabase.getInstance().userDao()
                 val user = db.getUser(et_phone.text.toString())
                 db.deleteUid(user.uid)
                 db.getUsers()
@@ -132,7 +133,7 @@ class SignUpActivity : AppCompatActivity() {
     private fun resetPassword() {
         async(UI) {
             val users = bg {
-                val db = UserDatabase.getInstance(MyApplication.instance)
+                val db = UserDatabase.getInstance()
                 val user = db.userDao().getUser(et_phone.text.toString())
                 db.userDao().addUser(User(user.phone, et_password.text.toString(), user.nick_name, user.uid))
             }
@@ -145,8 +146,11 @@ class SignUpActivity : AppCompatActivity() {
     private fun signUp() {
         async(UI) {
             val users = bg {
-                val db = UserDatabase.getInstance(MyApplication.instance).userDao()
-                db.addUser(User(et_phone.text.toString(), et_password.text.toString(), et_nick_name.text.toString()))
+                val db = UserDatabase.getInstance().userDao()
+
+                val user=User(et_phone.text.toString(), et_password.text.toString(), et_nick_name.text.toString())
+                ViseLog.d(user)
+                db.addUser(user)
                 db.getUsers()
             }
             ViseLog.d(users.await())

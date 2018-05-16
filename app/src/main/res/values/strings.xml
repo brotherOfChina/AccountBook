@@ -6,4 +6,36 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
+    <string-array name="type" >
+        <item>支出</item>
+        <item>收入</item>
+
+    </string-array>
+    <string-array name="expenditure_status" >
+        <item>通讯</item>
+        <item>餐饮</item>
+        <item>旅游</item>
+        <item>购物</item>
+        <item>教育</item>
+        <item>其它</item>
+    </string-array>
+    <string-array name="income_status" >
+        <item>工资</item>
+        <item>理财</item>
+        <item>其他</item>
+    </string-array>
+    <string-array name="budget_status" >
+        <item>支出</item>
+        <item>收入</item>
+        <item>预算</item>
+        <item>理财</item>
+    </string-array>
+    <string-array name="Financial_status" >
+        <item>支出</item>
+        <item>收入</item>
+        <item>预算</item>
+        <item>理财</item>
+    </string-array>
 </resources>

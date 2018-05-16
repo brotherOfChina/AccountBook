@@ -10,12 +10,16 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import com.example.administrator.accountbook.account.AddAccountActivity
 import com.example.administrator.accountbook.base.MyApplication
 import com.example.administrator.accountbook.extensions.DelegatesExt
 import com.example.administrator.accountbook.extensions.isLogin
 import com.example.administrator.accountbook.extensions.setLogin
+import com.example.administrator.accountbook.user.LoginActivity
+import com.example.administrator.accountbook.user.SignUpActivity
 import kotlinx.android.synthetic.main.activity_main_account.*
 import kotlinx.android.synthetic.main.app_bar_main_account.*
+import kotlinx.android.synthetic.main.content_main_account.*
 import org.jetbrains.anko.startActivity
 
 class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -29,8 +33,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         fab.setOnClickListener { view ->
 
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                    .setAction("Action", null).show()
+                startActivity<AddAccountActivity>()
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -46,6 +49,10 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         tvPhone?.setOnClickListener {
             startActivity<LoginActivity>()
         }
+        tab_main.addTab(tab_main.newTab().setText("全部"))
+        tab_main.addTab(tab_main.newTab().setText("收入"))
+        tab_main.addTab(tab_main.newTab().setText("支出"))
+        tab_main.addTab(tab_main.newTab().setText("结余"))
     }
 
     override fun onResume() {

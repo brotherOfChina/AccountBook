@@ -1,7 +1,8 @@
-package com.example.administrator.accountbook
+package com.example.administrator.accountbook.user
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.example.administrator.accountbook.R
 import com.example.administrator.accountbook.base.MyApplication
 import com.example.administrator.accountbook.db.database.UserDatabase
 import com.example.administrator.accountbook.db.entities.User
@@ -35,7 +36,7 @@ class LoginActivity : AppCompatActivity() {
 
             async(UI) {
                 val user = bg {
-                    val db = UserDatabase.getInstance(MyApplication.instance)
+                    val db = UserDatabase.getInstance()
                     db.userDao().getUser(et_phone.text.toString())
                 }
                 login(user.await())

@@ -27,13 +27,8 @@ interface AccountDao {
     /**
      * 获取所有账单
      */
-    @Query("SELECT FROM Account ")
+    @Query("SELECT * FROM Account ")
     fun getAllAccounts(): List<Account>
 
-    /**
-     * 根据id获取账单
-     */
-    @Query("SELECT FROM Account WHERE id = :id")
-    fun getAccountById(id: String)
 
 }
