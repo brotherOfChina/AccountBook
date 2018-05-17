@@ -11,10 +11,7 @@ import java.util.*
  * Created by {zpj}
  *  on 2018/5/16 0016.
  */
-@Entity(foreignKeys = [(ForeignKey(entity = User::class,
-        parentColumns = arrayOf("uid"),
-        childColumns = arrayOf("user_id"), onDelete = CASCADE))]
-)
+@Entity(tableName = "Account")
 data class Account @JvmOverloads constructor(
         @ColumnInfo(name = "create_date") var create_date: String = "",//创建时间
         @ColumnInfo(name = "edit_date") var edit_date: String = "",//修改时间

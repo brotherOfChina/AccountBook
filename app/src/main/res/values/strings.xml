@@ -11,6 +11,7 @@
     <string-array name="type" >
         <item>支出</item>
         <item>收入</item>
+        <item>预算</item>
 
     </string-array>
     <string-array name="expenditure_status" >
@@ -27,10 +28,15 @@
         <item>其他</item>
     </string-array>
     <string-array name="budget_status" >
-        <item>支出</item>
-        <item>收入</item>
-        <item>预算</item>
-        <item>理财</item>
+        <item>贷款</item>
+        <item>水电气</item>
+        <item>房租</item>
+        <item>医疗</item>
+        <item>教育</item>
+        <item>餐饮</item>
+        <item>人情</item>
+        <item>意外</item>
+        <item>非必要</item>
     </string-array>
     <string-array name="Financial_status" >
         <item>支出</item>

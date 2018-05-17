@@ -1,5 +1,6 @@
 package com.example.administrator.accountbook.account
 
+import android.arch.persistence.room.Room
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -12,6 +13,8 @@ import com.example.administrator.accountbook.db.entities.Account
 import com.example.administrator.accountbook.db.entities.User
 import com.vise.log.ViseLog
 import kotlinx.android.synthetic.main.activity_add_account.*
+import kotlinx.android.synthetic.main.adapter_accounts.*
+import kotlinx.android.synthetic.main.back_head.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
@@ -28,9 +31,14 @@ class AddAccountActivity : AppCompatActivity() {
     private var statusAdapter: ArrayAdapter<CharSequence>? = null
     private var userAdapter: ArrayAdapter<CharSequence>? = null
     private var users = mutableListOf<User>()
+    private var id = ""
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_account)
+        iv_back.setOnClickListener {
+            finish()
+        }
+        head_title.text = "记账"
         /**
          * 获取用户列表
          */
@@ -39,15 +47,23 @@ class AddAccountActivity : AppCompatActivity() {
                 userDb().userDao().getUsers()
             }
             users.addAll(allUsers.await())
-            showUserSpinner(users)
+            try {
+                showUserSpinner(users)
+
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
         }
         btn_sure_create.setOnClickListener {
             createAccount()
         }
+        id = intent.getStringExtra("id")
+
         val adapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(R.layout.spinner_layout_item)
-        statusAdapter = ArrayAdapter.createFromResource(this, R.array.type, R.layout.spinner_layout_item)
-
+        statusAdapter = ArrayAdapter(this, android.R.layout.simple_spinner_item)
+        statusAdapter?.setDropDownViewResource(R.layout.spinner_layout_item)
+        status_spinner.adapter = statusAdapter
         type_spinner.adapter = adapter
         type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -57,16 +73,39 @@ class AddAccountActivity : AppCompatActivity() {
                 when (p2) {
                     0 -> {
                         type = p2.toString()
-                        statusAdapter = ArrayAdapter.createFromResource(this@AddAccountActivity, R.array.expenditure_status, android.R.layout.simple_spinner_item)
-                        statusAdapter?.setDropDownViewResource(R.layout.spinner_layout_item)
-                        status_spinner.adapter = statusAdapter
+                        statusAdapter?.clear()
+
+                        statusAdapter?.addAll("通讯",
+                                "餐饮",
+                                "旅游",
+                                "购物",
+                                "教育",
+                                "其它")
+                        statusAdapter?.notifyDataSetChanged()
+
                     }
                     1 -> {
-                        type = p2.toString()
-                        statusAdapter = ArrayAdapter.createFromResource(this@AddAccountActivity, R.array.income_status, android.R.layout.simple_spinner_item)
-                        statusAdapter?.setDropDownViewResource(R.layout.spinner_layout_item)
+                        statusAdapter?.clear()
 
-                        status_spinner.adapter = statusAdapter
+                        type = p2.toString()
+                        statusAdapter?.addAll("工资",
+                                "理财",
+                                "其它"
+                                )
+                        statusAdapter?.notifyDataSetChanged()
+                    }
+                    2 -> {
+                        statusAdapter?.clear()
+
+                        type = p2.toString()
+                        statusAdapter?.addAll("贷款" ,
+                                "水电气" ,
+                                "房租" ,
+                                "医疗" ,
+                                "教育" ,
+                                "餐饮"
+                        )
+                        statusAdapter?.notifyDataSetChanged()
                     }
 
                 }
@@ -90,12 +129,12 @@ class AddAccountActivity : AppCompatActivity() {
         var amount = 0.0;
         var description = ""
         val date = sdf.format(Date())
-        if (et_amount.text?.toString() != null) {
+        if (et_amount.text?.toString() != null && et_amount.text?.toString() != "") {
             when (type) {
                 "0" -> {
                     amount = -(et_amount.text.toString().toDouble())
                 }
-                "1" -> {
+                "1", "2" -> {
                     amount = +(et_amount.text.toString().toDouble())
                 }
             }
@@ -107,12 +146,16 @@ class AddAccountActivity : AppCompatActivity() {
         }
         async(UI) {
             val accounts = bg {
-                val accountDao=  accountDb().accountDao()
-                val account = Account(date, "", type, uid,  nickname,status, amount, description)
+                val accountDao = accountDb().accountDao()
+                val account = Account(date, "", type, uid, nickname, status, amount, description)
+                ViseLog.d(account)
+
                 accountDao.addAccount(account)
                 ViseLog.d(accountDao.getAllAccounts())
 
             }
+            toast("记账成功")
+            finish()
         }
     }
 
@@ -135,6 +178,73 @@ class AddAccountActivity : AppCompatActivity() {
             }
 
         }
+        async(UI) {
+            val accountA = bg {
+                accountDb().accountDao().getAccountById(id)
+            }
+
+            selectTab(accountA.await())
+        }
+
+
+    }
+
+    private fun selectTab(account: Account) {
+        var userPosition = 0
+
+        ViseLog.d(account)
+        type_spinner.setSelection(account.type.toInt())
+
+        for ((i, user) in users.withIndex()) {
+            if (account.user_id == user.uid) {
+                userPosition = i
+            }
+        }
+        when (type) {
+            "0" -> {
+                statusAdapter?.clear()
+                statusAdapter?.addAll("通讯",
+                        "餐饮",
+                        "旅游",
+                        "购物",
+                        "教育",
+                        "其它")
+                statusAdapter?.notifyDataSetChanged()
+
+            }
+            "1" -> {
+                statusAdapter?.clear()
+
+                statusAdapter?.addAll("工资",
+                        "理财",
+                        "其它"
+                )
+                statusAdapter?.notifyDataSetChanged()
+            }
+            "2"-> {
+                statusAdapter?.clear()
+
+                statusAdapter?.addAll("贷款" ,
+                        "水电气" ,
+                        "房租" ,
+                        "医疗" ,
+                        "教育" ,
+                        "餐饮"
+
+                )
+                statusAdapter?.notifyDataSetChanged()
+            }
+
+        }
+        status_spinner.setSelection(account.status.toInt())
+
+        user_spinner.setSelection(userPosition)
+        if (account.amount < 0) {
+            et_amount.setText((-account.amount).toString())
+        } else {
+            et_amount.setText(account.amount.toString())
+        }
+        et_description.setText(account.description)
 
     }
 }

@@ -13,7 +13,7 @@ import com.example.administrator.accountbook.db.entities.User
  * Created by 赵鹏军
  *  on 2018/5/16 0016.
  */
-@Database(entities = [(Account::class),(User::class)], version = 1)
+@Database(entities = [(Account::class)], version = 1)
 abstract class AccountDatabase : RoomDatabase() {
     abstract fun accountDao(): AccountDao
 
