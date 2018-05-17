@@ -1,7 +1,7 @@
 package com.example.administrator.accountbook.account
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
@@ -15,17 +15,16 @@ import kotlinx.android.synthetic.main.activity_add_account.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
-import org.jetbrains.anko.custom.async
-import org.jetbrains.anko.spinner
 import org.jetbrains.anko.toast
 import java.text.SimpleDateFormat
 import java.util.*
 
 class AddAccountActivity : AppCompatActivity() {
-    private var type = "1"   //0 支出，1  收入 2 预算
-    private var status = "1"   //
+    private var type = "1"   //0 支出 ，1  收入 2 预算
+    private var status = "1"   //0通讯，餐饮，旅游，购物，教育，其他    1 工资，理财，其它
     private var uid = "1"   //用户id
-    val sdf=SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("china"))
+    private var nickname = "1"   //用户id
+    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("china"))
     private var statusAdapter: ArrayAdapter<CharSequence>? = null
     private var userAdapter: ArrayAdapter<CharSequence>? = null
     private var users = mutableListOf<User>()
@@ -46,8 +45,8 @@ class AddAccountActivity : AppCompatActivity() {
             createAccount()
         }
         val adapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item)
-        statusAdapter = ArrayAdapter.createFromResource(this, R.array.type, android.R.layout.simple_spinner_item)
-        statusAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        adapter.setDropDownViewResource(R.layout.spinner_layout_item)
+        statusAdapter = ArrayAdapter.createFromResource(this, R.array.type, R.layout.spinner_layout_item)
 
         type_spinner.adapter = adapter
         type_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -57,13 +56,16 @@ class AddAccountActivity : AppCompatActivity() {
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 when (p2) {
                     0 -> {
-                        type = "0"
+                        type = p2.toString()
                         statusAdapter = ArrayAdapter.createFromResource(this@AddAccountActivity, R.array.expenditure_status, android.R.layout.simple_spinner_item)
+                        statusAdapter?.setDropDownViewResource(R.layout.spinner_layout_item)
                         status_spinner.adapter = statusAdapter
                     }
                     1 -> {
-                        type = "1"
+                        type = p2.toString()
                         statusAdapter = ArrayAdapter.createFromResource(this@AddAccountActivity, R.array.income_status, android.R.layout.simple_spinner_item)
+                        statusAdapter?.setDropDownViewResource(R.layout.spinner_layout_item)
+
                         status_spinner.adapter = statusAdapter
                     }
 
@@ -85,25 +87,32 @@ class AddAccountActivity : AppCompatActivity() {
     }
 
     private fun createAccount() {
-        var amount = 0;
+        var amount = 0.0;
         var description = ""
-        val date=sdf.format(Date())
+        val date = sdf.format(Date())
         if (et_amount.text?.toString() != null) {
-            amount = et_amount.text.toString().toInt()
-        }else{
+            when (type) {
+                "0" -> {
+                    amount = -(et_amount.text.toString().toDouble())
+                }
+                "1" -> {
+                    amount = +(et_amount.text.toString().toDouble())
+                }
+            }
+        } else {
             toast("请输入金额")
         }
         if (et_amount.text?.toString() != null) {
             description = et_description.text.toString()
         }
         async(UI) {
-           val accounts= bg{
-                val account=Account(date,"",type,uid,status,amount,description)
-               ViseLog.d(account)
-                accountDb().accountDao().addAccount(account)
-            }
+            val accounts = bg {
+                val accountDao=  accountDb().accountDao()
+                val account = Account(date, "", type, uid,  nickname,status, amount, description)
+                accountDao.addAccount(account)
+                ViseLog.d(accountDao.getAllAccounts())
 
-            ViseLog.d(accounts.await())
+            }
         }
     }
 
@@ -114,7 +123,7 @@ class AddAccountActivity : AppCompatActivity() {
         }
         ViseLog.d(userNames)
         userAdapter = ArrayAdapter(this@AddAccountActivity, android.R.layout.simple_spinner_item, userNames as List<CharSequence>?)
-        userAdapter?.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        userAdapter?.setDropDownViewResource(R.layout.spinner_layout_item);
         user_spinner.adapter = userAdapter
         user_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -122,6 +131,7 @@ class AddAccountActivity : AppCompatActivity() {
 
             override fun onItemSelected(p0: AdapterView<*>?, p1: View?, p2: Int, p3: Long) {
                 uid = users[p2].uid
+                nickname = users[p2].nick_name
             }
 
         }

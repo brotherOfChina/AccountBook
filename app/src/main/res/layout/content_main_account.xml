@@ -16,11 +16,6 @@
         app:tabIndicatorHeight="3dp"
         app:tabSelectedTextColor="@color/colorAccent"
         app:tabTextColor="@color/colorPrimary" />
-
-
-
-
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_account"
         android:layout_width="match_parent"

@@ -2,24 +2,31 @@ package com.example.administrator.accountbook
 
 import android.os.Bundle
 import android.support.design.widget.NavigationView
-import android.support.design.widget.Snackbar
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.LinearLayoutManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
+import com.example.administrator.accountbook.account.AccountsAdapter
 import com.example.administrator.accountbook.account.AddAccountActivity
 import com.example.administrator.accountbook.base.MyApplication
+import com.example.administrator.accountbook.db.database.accountDb
+import com.example.administrator.accountbook.db.entities.Account
 import com.example.administrator.accountbook.extensions.DelegatesExt
 import com.example.administrator.accountbook.extensions.isLogin
 import com.example.administrator.accountbook.extensions.setLogin
 import com.example.administrator.accountbook.user.LoginActivity
 import com.example.administrator.accountbook.user.SignUpActivity
+import com.vise.log.ViseLog
 import kotlinx.android.synthetic.main.activity_main_account.*
 import kotlinx.android.synthetic.main.app_bar_main_account.*
 import kotlinx.android.synthetic.main.content_main_account.*
+import kotlinx.coroutines.experimental.android.UI
+import kotlinx.coroutines.experimental.async
+import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.startActivity
 
 class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
@@ -33,7 +40,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
         fab.setOnClickListener { view ->
 
-                startActivity<AddAccountActivity>()
+            startActivity<AddAccountActivity>()
         }
 
         val toggle = ActionBarDrawerToggle(
@@ -53,10 +60,32 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         tab_main.addTab(tab_main.newTab().setText("收入"))
         tab_main.addTab(tab_main.newTab().setText("支出"))
         tab_main.addTab(tab_main.newTab().setText("结余"))
+
+    }
+
+    private fun loadAllAccounts() {
+        async(UI) {
+            val accounts = bg {
+                accountDb().accountDao().getAllAccounts()
+            }
+            ViseLog.d(accounts.await())
+            showAccounts(accounts.await())
+        }
+    }
+    val accountsAdapter : AccountsAdapter by lazy {
+        AccountsAdapter(R.layout.adapter_accounts,rv_account)
+    }
+    private fun showAccounts(accounts: List<Account>) {
+        ViseLog.d(accounts)
+        rv_account.layoutManager=LinearLayoutManager(this)
+        rv_account.adapter=accountsAdapter
+        accountsAdapter.data=accounts
     }
 
     override fun onResume() {
         super.onResume()
+        loadAllAccounts()
+
         if (isLogin()) {
             tvName?.text = nickname
             tvPhone?.visibility = View.INVISIBLE
@@ -142,3 +171,4 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         startActivity<SignUpActivity>("type" to type)
     }
 }
+
