@@ -13,24 +13,27 @@
         <activity
             android:name=".MainAccountActivity"
             android:label="@string/title_activity_main_account"
-            android:theme="@style/AppTheme"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait"
+            android:theme="@style/AppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".user.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".user.SignUpActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".MainActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
-        <activity android:name=".account.AddAccountActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".user.LoginActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".user.SignUpActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".account.AddAccountActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".financial.FinancialManagement"></activity>
     </application>
 
 </manifest>

@@ -1,6 +1,5 @@
 package com.example.administrator.accountbook
 
-import android.app.ProgressDialog.show
 import android.os.Bundle
 import android.support.design.widget.NavigationView
 import android.support.design.widget.Snackbar
@@ -15,12 +14,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import cn.bingoogolapple.baseadapter.BGAOnItemChildClickListener
-import com.example.administrator.accountbook.R.id.rv_account
 import com.example.administrator.accountbook.account.AccountsAdapter
 import com.example.administrator.accountbook.account.AddAccountActivity
 import com.example.administrator.accountbook.base.MyApplication
 import com.example.administrator.accountbook.db.database.accountDb
-import com.example.administrator.accountbook.db.database.userDb
 import com.example.administrator.accountbook.db.entities.Account
 import com.example.administrator.accountbook.extensions.DelegatesExt
 import com.example.administrator.accountbook.extensions.isLogin
@@ -57,8 +54,8 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     var nickname: String by DelegatesExt.preference(MyApplication.instance, "nickname", "")
     var tvName: TextView? = null
     var tvPhone: TextView? = null
-    private var accounts= mutableListOf<Account>()
-    private var selectedPosition=0;
+    private var accounts = mutableListOf<Account>()
+    private var selectedPosition = 0;
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main_account)
@@ -93,7 +90,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         tab_main.addTab(tab_main.newTab().setText("全部"))
         tab_main.addTab(tab_main.newTab().setText("收入"))
         tab_main.addTab(tab_main.newTab().setText("支出"))
-        tab_main.addTab(tab_main.newTab().setText("理财"))
+        tab_main.addTab(tab_main.newTab().setText("预算"))
         tab_main.getTabAt(0)?.select()
         loadAllAccounts(0)
         tab_main.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
@@ -114,7 +111,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
     private fun loadAllAccounts(position: Int) {
         ViseLog.d(position)
-        selectedPosition=position
+        selectedPosition = position
         async(UI) {
             val accounts = bg {
                 when (position) {
@@ -144,7 +141,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
 
     private fun showAccounts(accounts: List<Account>) {
 
-        accountsAdapter.data=accounts
+        accountsAdapter.data = accounts
 
     }
 
@@ -222,6 +219,12 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
          */
             R.id.nav_cancel -> {
                 toSignUp("1")
+            }
+        /**
+         * 理财管理
+         */
+            R.id.financial_management -> {
+
             }
 
         }

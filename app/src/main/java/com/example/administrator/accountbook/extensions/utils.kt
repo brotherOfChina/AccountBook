@@ -1,10 +1,12 @@
 package com.example.administrator.jxkd.extensions
 
+import android.arch.persistence.room.TypeConverter
 import android.content.Context
 import android.os.Environment
 import android.text.TextUtils
 import java.io.File
 import java.math.BigDecimal
+import java.sql.Date
 
 
 /**
@@ -215,4 +217,16 @@ object DataCleanManager {
         return getFormatSize(getFolderSize(file).toDouble())
     }
 
+}
+
+class Converters {
+    @TypeConverter
+    fun fromTimestamp(value: Long?): Date? {
+        return if (value == null) null else Date(value)
+    }
+
+    @TypeConverter
+    fun dateToTimestamp(date: Date?): Long? {
+        return (date?.time)
+    }
 }

@@ -19,7 +19,9 @@
         <item
             android:id="@+id/nav_delete"
             android:title="删除账户" />
-
+        <item
+            android:id="@+id/financial_management"
+            android:title="理财管理" />
 
     </group>
 

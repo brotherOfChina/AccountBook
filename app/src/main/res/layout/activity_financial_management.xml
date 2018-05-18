@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.example.administrator.accountbook.financial.FinancialManagement">
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/back_head" />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/spinner_financial"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:entries="@array/financial_type"
+        app:layout_constraintEnd_toStartOf="@+id/spinner_user"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/head" />
+
+    <android.support.v7.widget.AppCompatSpinner
+        android:id="@+id/spinner_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spinner_financial"
+        app:layout_constraintTop_toBottomOf="@+id/head" />
+
+    <View
+        android:id="@+id/line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="10dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/spinner_user" />
+
+    <TextView
+        android:id="@+id/date_of_input"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+
+        android:drawableEnd="@drawable/write_arrow"
+        android:padding="10dp"
+        android:text="投入日期：2018-09-09"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/line" />
+
+    <View
+        android:id="@+id/line1"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/date_of_input" />
+
+    <TextView
+        android:id="@+id/date_of_revenue"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:drawableEnd="@drawable/write_arrow"
+        android:padding="10dp"
+        android:text="收益日期：2018-09-09"
+        android:textColor="#333333"
+
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/line1" />
+
+    <View
+        android:id="@+id/line2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/date_of_revenue" />
+
+    <TextView
+        android:id="@+id/investment_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="投入金额(元)："
+        android:textColor="#333333"
+        android:textSize="14sp"
+
+        app:layout_constraintTop_toBottomOf="@+id/line2" />
+
+    <EditText
+        android:id="@+id/et_investment_amount"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/card_back"
+        android:hint="请输入金额（单位：元）,如：10"
+        android:inputType="numberDecimal"
+        android:padding="10dp"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/investment_amount"
+        app:layout_constraintTop_toBottomOf="@+id/line2" />
+
+    <View
+        android:id="@+id/line3"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/et_investment_amount" />
+
+    <TextView
+        android:id="@+id/yield_interest_rate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="收益利率："
+        android:textColor="#333333"
+        android:textSize="14sp"
+
+        app:layout_constraintTop_toBottomOf="@+id/line3" />
+
+    <EditText
+        android:id="@+id/et_yield_interest_rate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/card_back"
+        android:hint="请输入利率,如：0.00015"
+        android:inputType="numberDecimal"
+        android:padding="10dp"
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/investment_amount"
+        app:layout_constraintTop_toBottomOf="@+id/line3" />
+
+    <View
+        android:id="@+id/line4"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#cccccc"
+        app:layout_constraintTop_toBottomOf="@+id/et_yield_interest_rate" />
+
+    <TextView
+        android:id="@+id/forecast_income"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="预测收益(元)："
+        android:textColor="#333333"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/line4" />
+
+    <TextView
+        android:id="@+id/tv_forecast_income"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:text="150元"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/line4" />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="50dp"
+        android:background="@color/colorPrimary"
+        android:text="确认理财"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_forecast_income" />
+</android.support.constraint.ConstraintLayout>
