@@ -22,6 +22,7 @@ import com.example.administrator.accountbook.db.entities.Account
 import com.example.administrator.accountbook.extensions.DelegatesExt
 import com.example.administrator.accountbook.extensions.isLogin
 import com.example.administrator.accountbook.extensions.setLogin
+import com.example.administrator.accountbook.financial.FinancialManagement
 import com.example.administrator.accountbook.user.LoginActivity
 import com.example.administrator.accountbook.user.SignUpActivity
 import com.vise.log.ViseLog
@@ -224,7 +225,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
          * 理财管理
          */
             R.id.financial_management -> {
-
+                startActivity<FinancialManagement>()
             }
 
         }

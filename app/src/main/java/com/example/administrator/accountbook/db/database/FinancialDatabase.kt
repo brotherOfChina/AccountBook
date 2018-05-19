@@ -28,7 +28,7 @@ abstract class FinancialDatabase : RoomDatabase() {
             synchronized(lock) {
                 if (INSTANCE == null) {
                     INSTANCE = Room
-                            .databaseBuilder(MyApplication.instance.applicationContext, FinancialDatabase::class.java, "User.db")
+                            .databaseBuilder(MyApplication.instance.applicationContext, FinancialDatabase::class.java, "Financial.db")
                             .build()
 
                 }

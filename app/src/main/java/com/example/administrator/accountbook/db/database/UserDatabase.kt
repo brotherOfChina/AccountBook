@@ -15,7 +15,6 @@ import com.example.administrator.jxkd.extensions.Converters
  *  on 2018/5/14 0014.
  */
 @Database(entities = [(User::class)], version = 1)
-@TypeConverters(Converters::class)
 abstract class UserDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
