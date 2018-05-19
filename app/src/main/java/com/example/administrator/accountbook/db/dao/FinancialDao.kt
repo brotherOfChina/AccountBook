@@ -37,6 +37,6 @@ interface FinancialDao {
     @Query("SELECT * FROM Financial WHERE id = :id")
     fun getFinancialById(id: String):Financial
 
-    @Query("SELECT * FROM Financial WHERE id BETWEEN :from AND :end")
+    @Query("SELECT * FROM Financial WHERE input_date BETWEEN :from AND :end")
     fun loadFinancials(from: Date, end: Date): List<Financial>
 }

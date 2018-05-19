@@ -17,12 +17,14 @@ import cn.bingoogolapple.baseadapter.BGAOnItemChildClickListener
 import com.example.administrator.accountbook.account.AccountsAdapter
 import com.example.administrator.accountbook.account.AddAccountActivity
 import com.example.administrator.accountbook.base.MyApplication
+import com.example.administrator.accountbook.bill.BillActivity
 import com.example.administrator.accountbook.db.database.accountDb
 import com.example.administrator.accountbook.db.entities.Account
 import com.example.administrator.accountbook.extensions.DelegatesExt
 import com.example.administrator.accountbook.extensions.isLogin
 import com.example.administrator.accountbook.extensions.setLogin
-import com.example.administrator.accountbook.financial.FinancialManagement
+import com.example.administrator.accountbook.financial.FinancialActivity
+import com.example.administrator.accountbook.user.AllUsersActivity
 import com.example.administrator.accountbook.user.LoginActivity
 import com.example.administrator.accountbook.user.SignUpActivity
 import com.vise.log.ViseLog
@@ -79,6 +81,8 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
+
+
 
         nav_view.setNavigationItemSelectedListener(this)
         val headView = nav_view.getHeaderView(0)
@@ -173,6 +177,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
         // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.main_account, menu)
+
         return true
     }
 
@@ -181,7 +186,10 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
-            R.id.action_settings -> return true
+            R.id.bill_book -> {
+                startActivity<BillActivity>()
+                return true
+            }
             else -> return super.onOptionsItemSelected(item)
         }
     }
@@ -201,7 +209,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
          * 删除账户
          */
             R.id.nav_delete -> {
-                toSignUp("5")
+                startActivity<AllUsersActivity>()
             }
         /**
          * 退出登录
@@ -225,7 +233,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
          * 理财管理
          */
             R.id.financial_management -> {
-                startActivity<FinancialManagement>()
+                startActivity<FinancialActivity>()
             }
 
         }

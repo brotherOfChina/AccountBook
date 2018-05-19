@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context="com.example.administrator.accountbook.bill.BillActivity">
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/back_head" />
+
+    <View
+        android:id="@+id/head_line"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="#999999"
+        app:layout_constraintTop_toBottomOf="@+id/head" />
+
+    <TextView
+        android:id="@+id/date_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:drawableEnd="@drawable/white_right_arrow"
+        android:padding="10dp"
+        android:text="2018年5月"
+
+        android:textColor="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/head_line" />
+
+    <TextView
+        android:id="@+id/date_line"
+        android:layout_width="0.5dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="#cccccc"
+        app:layout_constraintBottom_toBottomOf="@+id/date_year"
+        app:layout_constraintEnd_toStartOf="@+id/tv_expenditure_amount"
+        app:layout_constraintStart_toEndOf="@+id/date_year"
+        app:layout_constraintTop_toTopOf="@+id/date_year" />
+
+    <TextView
+        android:id="@+id/tv_expenditure_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="支出：100元"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toStartOf="@+id/tv_income_amount"
+        app:layout_constraintStart_toEndOf="@+id/date_line"
+        app:layout_constraintTop_toBottomOf="@+id/head_line" />
+
+    <TextView
+        android:id="@+id/tv_income_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:text="收入：100元"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/tv_expenditure_amount"
+        app:layout_constraintTop_toBottomOf="@+id/head_line" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/tab_bill"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/tv_income_amount"
+        app:tabIndicatorColor="@color/colorPrimary"
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="#333333" />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tab_bill" />
+
+</android.support.constraint.ConstraintLayout>

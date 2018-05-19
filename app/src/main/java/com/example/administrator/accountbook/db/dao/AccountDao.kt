@@ -42,6 +42,11 @@ interface AccountDao {
     @Query("SELECT * FROM Account WHERE type = :type")
     fun getPayAccounts(type: String): List<Account>
 
+    /**
+     * 获取一定时间内的账单
+     */
+    @Query("SELECT * FROM Account WHERE date BETWEEN :from AND :end")
+    fun getDateAccounts(from: Long, end: Long): List<Account>
 
 
 }

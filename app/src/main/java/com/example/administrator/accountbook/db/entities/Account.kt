@@ -2,8 +2,6 @@ package com.example.administrator.accountbook.db.entities
 
 import android.arch.persistence.room.ColumnInfo
 import android.arch.persistence.room.Entity
-import android.arch.persistence.room.ForeignKey
-import android.arch.persistence.room.ForeignKey.CASCADE
 import android.arch.persistence.room.PrimaryKey
 import java.util.*
 
@@ -13,6 +11,8 @@ import java.util.*
  */
 @Entity(tableName = "Account")
 data class Account @JvmOverloads constructor(
+        @ColumnInfo(name = "date") var date: Long = 0,//创建时间
+
         @ColumnInfo(name = "create_date") var create_date: String = "",//创建时间
         @ColumnInfo(name = "edit_date") var edit_date: String = "",//修改时间
         @ColumnInfo(name = "type") var type: String = "",//1 支出  2收入

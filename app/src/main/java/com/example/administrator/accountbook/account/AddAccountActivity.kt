@@ -1,6 +1,5 @@
 package com.example.administrator.accountbook.account
 
-import android.arch.persistence.room.Room
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -13,7 +12,6 @@ import com.example.administrator.accountbook.db.entities.Account
 import com.example.administrator.accountbook.db.entities.User
 import com.vise.log.ViseLog
 import kotlinx.android.synthetic.main.activity_add_account.*
-import kotlinx.android.synthetic.main.adapter_accounts.*
 import kotlinx.android.synthetic.main.back_head.*
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -147,7 +145,7 @@ class AddAccountActivity : AppCompatActivity() {
         async(UI) {
             val accounts = bg {
                 val accountDao = accountDb().accountDao()
-                val account = Account(date, "", type, uid, nickname, status, amount, description)
+                val account = Account(System.currentTimeMillis(),date, "", type, uid, nickname, status, amount, description)
                 ViseLog.d(account)
 
                 accountDao.addAccount(account)

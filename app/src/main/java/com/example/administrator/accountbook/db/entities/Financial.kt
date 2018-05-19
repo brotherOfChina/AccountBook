@@ -19,5 +19,6 @@ data class Financial @JvmOverloads constructor(
         @ColumnInfo(name = "income_amount") var income_amount: Double = 0.0,
         @ColumnInfo(name = "uid") var uid: String = "",
         @ColumnInfo(name = "user_name") var user_name: String = "",
+        @ColumnInfo(name = "financial_type") var financial_type :String= "",
         @PrimaryKey @ColumnInfo(name = "id") var id: String = UUID.randomUUID().toString() //账单id
 )

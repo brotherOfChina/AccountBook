@@ -6,13 +6,13 @@
         android:name=".base.MyApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="精理财"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainAccountActivity"
-            android:label="@string/title_activity_main_account"
+            android:label="精理财"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme">
             <intent-filter>
@@ -29,11 +29,18 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".account.AddAccountActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".financial.FinancialManagement"></activity>
+        <activity
+            android:name=".financial.AddFinancialManagement"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".financial.FinancialActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".user.AllUsersActivity" />
+        <activity android:name=".bill.BillActivity"></activity>
     </application>
 
 </manifest>
