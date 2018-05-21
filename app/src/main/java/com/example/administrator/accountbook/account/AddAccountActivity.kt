@@ -1,5 +1,6 @@
 package com.example.administrator.accountbook.account
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.view.View
@@ -25,7 +26,7 @@ class AddAccountActivity : AppCompatActivity() {
     private var status = "1"   //0通讯，餐饮，旅游，购物，教育，其他    1 工资，理财，其它
     private var uid = "1"   //用户id
     private var nickname = "1"   //用户id
-    val sdf = SimpleDateFormat("yyyy-MM-dd HH:mm", Locale("china"))
+    val sdf = SimpleDateFormat("yyyy-MM-dd", Locale("china"))
     private var statusAdapter: ArrayAdapter<CharSequence>? = null
     private var userAdapter: ArrayAdapter<CharSequence>? = null
     private var users = mutableListOf<User>()
@@ -89,18 +90,18 @@ class AddAccountActivity : AppCompatActivity() {
                         statusAdapter?.addAll("工资",
                                 "理财",
                                 "其它"
-                                )
+                        )
                         statusAdapter?.notifyDataSetChanged()
                     }
                     2 -> {
                         statusAdapter?.clear()
 
                         type = p2.toString()
-                        statusAdapter?.addAll("贷款" ,
-                                "水电气" ,
-                                "房租" ,
-                                "医疗" ,
-                                "教育" ,
+                        statusAdapter?.addAll("贷款",
+                                "水电气",
+                                "房租",
+                                "医疗",
+                                "教育",
                                 "餐饮"
                         )
                         statusAdapter?.notifyDataSetChanged()
@@ -109,6 +110,19 @@ class AddAccountActivity : AppCompatActivity() {
                 }
 
             }
+
+        }
+        val calendar = Calendar.getInstance()
+
+        tv_date.text ="请选择日期"
+        tv_date.setOnClickListener {
+            DatePickerDialog(this@AddAccountActivity, R.style.Theme_AppCompat_Light_Dialog, DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+                // 绑定监听器(How the parent is notified that the date is set.)
+                // 此处得到选择的时间，可以进行你想要的操作
+                tv_date.text = "日期：$year-${monthOfYear + 1}-$dayOfMonth"
+                date="$year-${monthOfYear + 1}-$dayOfMonth"
+            }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))// 设置初始日期
+                    .show()
 
         }
         status_spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -122,17 +136,20 @@ class AddAccountActivity : AppCompatActivity() {
         }
 
     }
-
+    private var date=""
     private fun createAccount() {
+        if (date==""){
+            toast("请选择日期")
+            return
+        }
         var amount = 0.0;
         var description = ""
-        val date = sdf.format(Date())
         if (et_amount.text?.toString() != null && et_amount.text?.toString() != "") {
             when (type) {
-                "0" -> {
+                "0", "2" -> {
                     amount = -(et_amount.text.toString().toDouble())
                 }
-                "1", "2" -> {
+                "1" -> {
                     amount = +(et_amount.text.toString().toDouble())
                 }
             }
@@ -145,7 +162,7 @@ class AddAccountActivity : AppCompatActivity() {
         async(UI) {
             val accounts = bg {
                 val accountDao = accountDb().accountDao()
-                val account = Account(System.currentTimeMillis(),date, "", type, uid, nickname, status, amount, description)
+                val account = Account(System.currentTimeMillis(), date, "", type, uid, nickname, status, amount, description)
                 ViseLog.d(account)
 
                 accountDao.addAccount(account)
@@ -219,14 +236,14 @@ class AddAccountActivity : AppCompatActivity() {
                 )
                 statusAdapter?.notifyDataSetChanged()
             }
-            "2"-> {
+            "2" -> {
                 statusAdapter?.clear()
 
-                statusAdapter?.addAll("贷款" ,
-                        "水电气" ,
-                        "房租" ,
-                        "医疗" ,
-                        "教育" ,
+                statusAdapter?.addAll("贷款",
+                        "水电气",
+                        "房租",
+                        "医疗",
+                        "教育",
                         "餐饮"
 
                 )

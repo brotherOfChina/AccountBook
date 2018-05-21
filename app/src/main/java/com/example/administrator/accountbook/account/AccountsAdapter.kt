@@ -1,17 +1,10 @@
 package com.example.administrator.accountbook.account
 
 import android.support.v7.widget.RecyclerView
-import android.widget.ImageView
-import android.widget.Toast
-import cn.bingoogolapple.baseadapter.BGAOnItemChildClickListener
 import cn.bingoogolapple.baseadapter.BGARecyclerViewAdapter
 import cn.bingoogolapple.baseadapter.BGAViewHolderHelper
 import com.example.administrator.accountbook.R
-import com.example.administrator.accountbook.db.database.AccountDatabase
 import com.example.administrator.accountbook.db.entities.Account
-import kotlinx.coroutines.experimental.android.UI
-import kotlinx.coroutines.experimental.async
-import org.jetbrains.anko.coroutines.experimental.bg
 
 /**
  * Created by {zpj}
@@ -23,12 +16,12 @@ class AccountsAdapter(layoutId: Int, recyclerView: RecyclerView) : BGARecyclerVi
         helper?.setItemChildClickListener(R.id.card_account)
     }
 
-    override fun fillData(helper: BGAViewHolderHelper, position: Int, model: Account) {
-        helper.setText(R.id.tv_nick_name, model.nick_name)
-        helper.setText(R.id.tv_item_date, model.create_date)
-        helper.setText(R.id.tv_account_amount, model.amount.toString())
-        helper.setText(R.id.tv_account_description, model.description)
-        helper.setText(R.id.tv_account_type, when (model.type) {
+    override fun fillData(helper: BGAViewHolderHelper?, position: Int, model: Account) {
+        helper?.setText(R.id.tv_nick_name, model.nick_name)
+        helper?.setText(R.id.tv_item_date, model.create_date)
+        helper?.setText(R.id.tv_account_amount, model.amount.toString())
+        helper?.setText(R.id.tv_account_description, model.description)
+        helper?.setText(R.id.tv_account_type, when (model.type) {
             "0" -> {
                 "支出"
             }
@@ -36,11 +29,11 @@ class AccountsAdapter(layoutId: Int, recyclerView: RecyclerView) : BGARecyclerVi
                 "收入"
             }
             else -> {
-                "理财"
+                "预算"
             }
         })
 
-        helper.setText(R.id.tv_account_status, when (model.type) {
+        helper?.setText(R.id.tv_account_status, when (model.type) {
             "0" -> {
                 when (model.status) {
                     "0" -> {

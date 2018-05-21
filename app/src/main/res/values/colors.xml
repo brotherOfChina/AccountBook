@@ -4,4 +4,18 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="white">#ffffff</color>
+    <color name="black">#333333</color>
+    <color name="read_color">#ff0000</color>
+    <color name="hx_red">#999900</color>
+    <color name="text_blue">#3F51B5</color>
+    <color name="color_gongzi">#3fb56a</color>
+    <color name="color_licai">#b5a13f</color>
+    <color name="color_qita">#ad3fb5</color>
+    <color name="color_tongxuan">#3fb5b5</color>
+    <color name="color_lvyou">#0aa717</color>
+    <color name="color_canyin">#b5b33f</color>
+    <color name="color_gouwu">#b40950</color>
+    <color name="bg">#b40950</color>
+
+
 </resources>

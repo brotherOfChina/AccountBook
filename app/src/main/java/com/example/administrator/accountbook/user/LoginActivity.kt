@@ -52,6 +52,8 @@ class LoginActivity : AppCompatActivity() {
             setLogin(true)
             nickname = user.nick_name
             finish()
+        }else{
+            toast("登录失败")
         }
 
     }

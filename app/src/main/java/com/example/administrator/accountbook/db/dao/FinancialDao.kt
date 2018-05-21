@@ -5,7 +5,7 @@ import android.arch.persistence.room.Insert
 import android.arch.persistence.room.OnConflictStrategy
 import android.arch.persistence.room.Query
 import com.example.administrator.accountbook.db.entities.Financial
-import java.sql.Date
+import java.util.*
 
 /**
  * Created by {zpj}
@@ -35,8 +35,11 @@ interface FinancialDao {
      * 获取理财
      */
     @Query("SELECT * FROM Financial WHERE id = :id")
-    fun getFinancialById(id: String):Financial
+    fun getFinancialById(id: String): Financial
 
     @Query("SELECT * FROM Financial WHERE input_date BETWEEN :from AND :end")
     fun loadFinancials(from: Date, end: Date): List<Financial>
+
+    @Query("SELECT * FROM Financial WHERE income_date = :date")
+    fun loadDayFinancials(date: String): List<Financial>
 }

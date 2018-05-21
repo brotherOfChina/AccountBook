@@ -37,6 +37,12 @@ interface AccountDao {
     fun getAllAccounts(): List<Account>
 
     /**
+     * 获取某一用户的账单
+     */
+    @Query("SELECT * FROM Account WHERE user_id = :uid")
+    fun getUserAccounts(uid: String): List<Account>
+
+    /**
      * 获取账单
      */
     @Query("SELECT * FROM Account WHERE type = :type")
@@ -48,5 +54,9 @@ interface AccountDao {
     @Query("SELECT * FROM Account WHERE date BETWEEN :from AND :end")
     fun getDateAccounts(from: Long, end: Long): List<Account>
 
-
+    /**
+     * 获取一定时间内的账单
+     */
+    @Query("SELECT * FROM Account WHERE create_date = :date AND type = :type")
+    fun getDayAccounts(date: String,type: String): List<Account>
 }

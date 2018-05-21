@@ -11,6 +11,7 @@ import com.example.administrator.accountbook.R
 import com.example.administrator.accountbook.db.database.getFinancialDao
 import com.example.administrator.accountbook.db.entities.Financial
 import com.example.administrator.accountbook.extensions.isLogin
+import com.example.administrator.accountbook.supercalendar.SyllabusActivity
 import com.example.administrator.accountbook.user.LoginActivity
 import com.vise.log.ViseLog
 import kotlinx.android.synthetic.main.activity_financial.*
@@ -46,7 +47,11 @@ class FinancialActivity : AppCompatActivity() {
 
         }
     }
+
     private fun initView() {
+        iv_calder.setOnClickListener {
+            startActivity<SyllabusActivity>()
+        }
         iv_back.setOnClickListener {
             finish()
         }
@@ -69,8 +74,8 @@ class FinancialActivity : AppCompatActivity() {
 class FinancialsAdapter(recyclerView: RecyclerView, layoutId: Int) : BGARecyclerViewAdapter<Financial>(recyclerView, layoutId) {
     val sdf = SimpleDateFormat("yyyy-MM-dd", Locale("China"))
     override fun fillData(helper: BGAViewHolderHelper?, position: Int, model: Financial?) {
-        helper?.setText(R.id.tv_income_date, "收益日期：" + sdf.format(model?.income_date))
-        helper?.setText(R.id.tv_input_date, "投入日期：" + sdf.format(model?.input_date))
+        helper?.setText(R.id.tv_income_date, "收益日期：" + (model?.income_date))
+        helper?.setText(R.id.tv_input_date, "投入日期：" + (model?.input_date))
         helper?.setText(R.id.tv_income_rate, "收益利率：" + model?.rate)
         helper?.setText(R.id.tv_input_amount, "投入金额：" + model?.input_amount)
         helper?.setText(R.id.tv_maturity_income, "到期收益：" + model?.income_amount)

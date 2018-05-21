@@ -24,6 +24,7 @@ import com.example.administrator.accountbook.extensions.DelegatesExt
 import com.example.administrator.accountbook.extensions.isLogin
 import com.example.administrator.accountbook.extensions.setLogin
 import com.example.administrator.accountbook.financial.FinancialActivity
+import com.example.administrator.accountbook.supercalendar.SyllabusActivity2
 import com.example.administrator.accountbook.user.AllUsersActivity
 import com.example.administrator.accountbook.user.LoginActivity
 import com.example.administrator.accountbook.user.SignUpActivity
@@ -121,6 +122,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
             val accounts = bg {
                 when (position) {
                     1 -> {
+
                         accountDb().accountDao().getPayAccounts("1")
                     }
                     2 -> {
@@ -153,7 +155,7 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
     override fun onResume() {
         super.onResume()
         tab_main.getTabAt(selectedPosition)?.select()
-
+        loadAllAccounts(0)
         if (isLogin()) {
             tvName?.text = nickname
             tvPhone?.visibility = View.INVISIBLE
@@ -187,7 +189,26 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
         // as you specify a parent activity in AndroidManifest.xml.
         when (item.itemId) {
             R.id.bill_book -> {
-                startActivity<BillActivity>()
+                if (isLogin()) {
+                    startActivity<BillActivity>()
+
+                } else {
+                    Snackbar.make(fab, "记笔记请先登录", Snackbar.LENGTH_LONG).setAction("去登录") {
+                        startActivity<LoginActivity>()
+                    }.show()
+                }
+                return true
+            }
+            R.id.calder -> {
+                if (isLogin()) {
+                    startActivity<SyllabusActivity2>()
+
+                } else {
+                    Snackbar.make(fab, "记笔记请先登录", Snackbar.LENGTH_LONG).setAction("去登录") {
+                        startActivity<LoginActivity>()
+                    }.show()
+
+                }
                 return true
             }
             else -> return super.onOptionsItemSelected(item)
@@ -202,38 +223,91 @@ class MainAccountActivity : AppCompatActivity(), NavigationView.OnNavigationItem
          * 添加账户
          */
             R.id.nav_add -> {
-                toSignUp("3")
+                if (isLogin()) {
+                    toSignUp("3")
+
+                } else {
+                    Snackbar.make(fab, "记笔记请先登录", Snackbar.LENGTH_LONG).setAction("去登录") {
+                        startActivity<LoginActivity>()
+                    }.show()
+
+                }
 
             }
         /**
          * 删除账户
          */
             R.id.nav_delete -> {
-                startActivity<AllUsersActivity>()
+                if (isLogin()) {
+                    startActivity<AllUsersActivity>()
+
+                } else {
+                    Snackbar.make(fab, "记笔记请先登录", Snackbar.LENGTH_LONG).setAction("去登录") {
+                        startActivity<LoginActivity>()
+                    }.show()
+
+                }
+
             }
         /**
          * 退出登录
          */
             R.id.nav_out -> {
-                setLogin(false)
+                if (isLogin()) {
+                    setLogin(false)
+
+                } else {
+                    Snackbar.make(fab, "记笔记请先登录", Snackbar.LENGTH_LONG).setAction("去登录") {
+                        startActivity<LoginActivity>()
+                    }.show()
+
+                }
+
             }
         /**
          * 重置密码
          */
             R.id.nav_password -> {
-                toSignUp("4")
+                if (isLogin()) {
+                    toSignUp("4")
+
+                } else {
+                    Snackbar.make(fab, "记笔记请先登录", Snackbar.LENGTH_LONG).setAction("去登录") {
+                        startActivity<LoginActivity>()
+                    }.show()
+
+                }
+
             }
         /**
          * 注销账户
          */
             R.id.nav_cancel -> {
-                toSignUp("1")
+                if (isLogin()) {
+                    toSignUp("1")
+
+                } else {
+                    Snackbar.make(fab, "记笔记请先登录", Snackbar.LENGTH_LONG).setAction("去登录") {
+                        startActivity<LoginActivity>()
+                    }.show()
+
+                }
+
             }
         /**
          * 理财管理
          */
             R.id.financial_management -> {
-                startActivity<FinancialActivity>()
+                if (isLogin()) {
+                    startActivity<FinancialActivity>()
+
+                } else {
+                    Snackbar.make(fab, "记笔记请先登录", Snackbar.LENGTH_LONG).setAction("去登录") {
+                        startActivity<LoginActivity>()
+                    }.show()
+
+                }
+
             }
 
         }

@@ -21,8 +21,8 @@ import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.bg
 import org.jetbrains.anko.toast
-import java.sql.Date
 import java.text.DecimalFormat
+import java.text.SimpleDateFormat
 import java.util.*
 
 
@@ -33,8 +33,11 @@ class AddFinancialManagement : AppCompatActivity() {
     private var users = mutableListOf<User>()
     private var id = ""
     val calendar = Calendar.getInstance()
-    private var input_date: java.sql.Date = Date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))//投入日期
-    private var revenue_date: java.sql.Date = Date(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))//收入日期
+    val sdf=SimpleDateFormat("yyyy-MM-dd", Locale("China"))
+    private var input_date: String = sdf.format(Date())//投入日期
+    private var revenue_date: String = sdf.format(Date())//收入日期
+    private var input_datel:Long=System.currentTimeMillis()
+    private var revenue_datel:Long=System.currentTimeMillis()
     private var investment_amount: Double = 0.0
     private var investment_rate: Double = 0.0
     private var income_amount: Double = 0.0
@@ -52,9 +55,9 @@ class AddFinancialManagement : AppCompatActivity() {
         iv_back.setOnClickListener {
             finish()
         }
-        date_of_input.text = "投入日期：$input_date"
-        date_of_revenue.text = "收入日期：$revenue_date"
-        dateDiff = ((revenue_date.time - input_date.time) / 1000 / 60 / 60 / 24).toInt()
+        date_of_input.text = "投入日期：${sdf.format(Date())}"
+        date_of_revenue.text = "收入日期：${sdf.format(Date())}"
+        dateDiff = 0
         val adapter = ArrayAdapter.createFromResource(this, R.array.financial_type, android.R.layout.simple_spinner_item)
         adapter.setDropDownViewResource(R.layout.spinner_layout_item)
         spinner_financial.adapter = adapter
@@ -130,8 +133,10 @@ class AddFinancialManagement : AppCompatActivity() {
                 // 绑定监听器(How the parent is notified that the date is set.)
                 // 此处得到选择的时间，可以进行你想要的操作
                 date_of_input.text = "投入日期：$year-${monthOfYear + 1}-$dayOfMonth"
-                input_date = java.sql.Date(year, monthOfYear, dayOfMonth)
-                dateDiff = ((revenue_date.time - input_date.time) / 1000 / 60 / 60 / 24).toInt()
+
+                input_date = "$year-${monthOfYear + 1}-$dayOfMonth"
+                input_datel=sdf.parse(input_date).time
+                dateDiff = ((revenue_datel - input_datel) / 1000 / 60 / 60 / 24).toInt()
                 income_amount=df.format(income_amount).toDouble()
 
                 tv_forecast_income.text = income_amount.toString()
@@ -143,8 +148,9 @@ class AddFinancialManagement : AppCompatActivity() {
                 // 绑定监听器(How the parent is notified that the date is set.)
                 // 此处得到选择的时间，可以进行你想要的操作
                 date_of_revenue.text = "收益日期：$year-${monthOfYear + 1}-$dayOfMonth"
-                revenue_date = java.sql.Date(year, monthOfYear, dayOfMonth)
-                dateDiff = ((revenue_date.time - input_date.time) / 1000 / 60 / 60 / 24).toInt()
+                revenue_date ="$year-${monthOfYear + 1}-$dayOfMonth"
+                revenue_datel=sdf.parse(revenue_date).time
+                dateDiff = ((revenue_datel - input_datel) / 1000 / 60 / 60 / 24).toInt()
                 income_amount = (investment_rate) * (investment_amount) * dateDiff
                 income_amount=df.format(income_amount).toDouble()
 
@@ -167,8 +173,9 @@ class AddFinancialManagement : AppCompatActivity() {
             }
 
 
-            val financial = Financial(input_date, revenue_date, investment_rate, investment_amount, income_amount, uid, user_name = nickname, financial_type = financial_type)
-            ViseLog.d(financial)
+            val financial = Financial(input_date,input_datel, revenue_date, revenue_datel,investment_rate, investment_amount, income_amount, uid, user_name = nickname, financial_type = financial_type)
+            ViseLog.d(            Date(financial.income_datel!!)
+            )
             async(UI) {
                 val s = bg {
                     getFinancialDao().addFinancial(financial)

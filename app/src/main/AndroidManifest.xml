@@ -5,9 +5,9 @@
     <application
         android:name=".base.MyApplication"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="精理财"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
@@ -39,8 +39,16 @@
         <activity
             android:name=".financial.FinancialActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".user.AllUsersActivity" />
-        <activity android:name=".bill.BillActivity"></activity>
+        <activity android:name=".user.AllUsersActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".bill.BillActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".account.UserAccountActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".supercalendar.SyllabusActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".supercalendar.SyllabusActivity2"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
